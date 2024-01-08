@@ -1,27 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  안녕하세요 강명진입니다.
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <header class="maple-bold-title">
+    <p>TODO</p>
+  </header>
+  <body>
+    <div class="maple-light custom-content">body
+      <MyInputButton />
+    </div>
+  </body>
+  <footer>
+    <div class="maple-light custom-footer">
+      footer
+    </div>
+  </footer>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import MyInputButton from './components/MyInputButton.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
