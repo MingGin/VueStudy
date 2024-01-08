@@ -32,6 +32,7 @@ header{
 .custom-content{
   background-color: rgb(236, 195, 215);
   height: 500px;
+  padding-top: 30px;
 }
 .custom-footer{
   background-color: yellow;
