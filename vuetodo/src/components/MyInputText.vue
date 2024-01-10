@@ -22,8 +22,8 @@ import {defineProps} from 'vue';
                 type: String,
                 required : true
             },
-            date: {
-                type: Date,
+            checked: {
+                type: Boolean,
                 required : true
             }
         }
@@ -58,6 +58,7 @@ import {defineProps} from 'vue';
             const todoItem = {
                 id: props.inpt.id,
                 text: inputText2.value,
+                checked: checked,
                 date: new Date().getDate
             }
             localStorage.setItem(todoItem.id,JSON.stringify(todoItem))
@@ -66,7 +67,8 @@ import {defineProps} from 'vue';
         }
     }
     /* checkBox */
-    const checked = ref()
+    const checked = ref(props.inpt.checked)
+    console.log(props.inpt.checked)
     const classObject = reactive({
         text_deco: checked
     })

@@ -34,6 +34,7 @@ const inputAdd = () =>{
   const todoItem = {
     id: Math.floor(Math.random() * 100000000),
     text: "오늘의 할일을 입력하세요.",
+    checked: false,
     date: new Date().getDate
   }
   localStorage.setItem(todoItem.id,JSON.stringify(todoItem))
