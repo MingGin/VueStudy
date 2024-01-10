@@ -4,7 +4,7 @@
   </header>
   <body>
     <div class="maple-light custom-content">
-        <MyInputText :isInput = isInput v-for="inpt in inpts" :key="inpt.id" :inpt = inpt :is="inputComponent" @doubleClick="dbClick">
+        <MyInputText v-for="inpt in inpts" :key="inpt.id" :inpt = inpt @removeTodo ="removeTodo">
 
         </MyInputText>
       <MyInputButton @inputClick="inputAdd"/>
@@ -24,20 +24,34 @@ import {ref} from 'vue'
 
 /* Add TextBox */
 const inpts = ref([])
-// const index = 0
-const inputAdd = () =>{
-    inpts.value.push({
-      id: Math.floor(Math.random() * 100000000),
-      text: "오늘의 할일을 입력하세요.",
-      date: new Date().getDate,
-      state: "Text",
-    })
+for(let i = 0; i < localStorage.length; i++){
+  const key = window.localStorage.key(i)
+  inpts.value.push(JSON.parse(localStorage.getItem(key)))
 }
-/* TextBox -> Input 변경 */
-const inputComponent = ref(MyInputText)
-const isInput = ref(false)
-const dbClick = () =>{
-  isInput.value = !isInput.value
+
+// let index = 0
+const inputAdd = () =>{
+  const todoItem = {
+    id: Math.floor(Math.random() * 100000000),
+    text: "오늘의 할일을 입력하세요.",
+    date: new Date().getDate
+  }
+  localStorage.setItem(todoItem.id,JSON.stringify(todoItem))
+  inpts.value.push(todoItem)
+}
+/* id로 todo 찾기 */
+const targetTodoFilter = function(todos,todoId){
+  for(let i=0; todos.length>i; i++){
+    if(todos[i].id == todoId){
+      return i
+    }
+  }
+}
+/* TODO 삭제 */
+const removeTodo = (itemId)=>{
+  const targetTodo = targetTodoFilter(inpts.value,itemId)
+  inpts.value.splice(targetTodo,1);
+  localStorage.removeItem(itemId)
 }
 
 </script>
