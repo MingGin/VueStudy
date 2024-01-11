@@ -4,10 +4,10 @@
   </header>
   <body>
     <div class="maple-light custom-content">
-        <MyInputText v-for="inpt in inpts" :key="inpt.id" :inpt = inpt @removeTodo ="removeTodo">
+        <TodoInputText v-for="inpt in inpts" :key="inpt.id" :inpt = inpt @removeTodo ="removeTodo">
 
-        </MyInputText>
-      <MyInputButton @inputClick="inputAdd"/>
+        </TodoInputText>
+      <TodoAddButton @inputClick="inputAdd"/>
     </div>
   </body>
   <footer>
@@ -17,9 +17,8 @@
 </template>
 
 <script setup>
-import MyInputButton from './components/MyInputButton.vue'
-// import MyInput from './components/MyInput.vue'
-import MyInputText from './components/MyInputText.vue'
+import TodoAddButton from './components/TodoAddButton.vue'
+import TodoInputText from './components/TodoInputText.vue'
 import {ref} from 'vue'
 
 /* Add TextBox */
@@ -29,7 +28,6 @@ for(let i = 0; i < localStorage.length; i++){
   inpts.value.push(JSON.parse(localStorage.getItem(key)))
 }
 
-// let index = 0
 const inputAdd = () =>{
   const todoItem = {
     id: Math.floor(Math.random() * 100000000),
