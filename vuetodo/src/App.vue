@@ -2,8 +2,8 @@
   <header class="maple-bold-title">
     <p>TODO</p>
   </header>
-  <body>
-    <div class="maple-light custom-content">
+  <body >
+    <div class="container maple-light custom-content" >
         <TodoInputText v-for="inpt in inpts" :key="inpt.id" :inpt = inpt @removeTodo ="removeTodo">
 
         </TodoInputText>

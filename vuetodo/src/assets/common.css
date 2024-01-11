@@ -31,6 +31,7 @@ header{
   margin: 30px 0px;
 }
 .custom-content{
+  width: 900px;
   padding-top: 30px;
   border-radius: 10px solid #444444;
 }
