@@ -3,12 +3,14 @@
     <p>TODO</p>
   </header>
   <body >
-    <div class="container maple-light custom-content" >
+    <div class="container maple-light custom-content-border" >
         <TodoInputText v-for="inpt in inpts" :key="inpt.id" :inpt = inpt @removeTodo ="removeTodo">
 
         </TodoInputText>
-      <TodoAddButton @inputClick="inputAdd"/>
-    </div>
+      </div>
+      <div class="container maple-light custom-content" >
+        <TodoAddButton @inputClick="inputAdd"/>
+      </div>
   </body>
   <footer>
     <div class="maple-light custom-footer">
@@ -19,18 +21,31 @@
 <script setup>
 import TodoAddButton from './components/TodoAddButton.vue'
 import TodoInputText from './components/TodoInputText.vue'
-import {ref} from 'vue'
+import {ref, onBeforeMount} from 'vue'
+// import dayjs from 'dayjs'
 
 /* Add TextBox */
 const inpts = ref([])
-for(let i = 0; i < localStorage.length; i++){
-  const key = window.localStorage.key(i)
-  inpts.value.push(JSON.parse(localStorage.getItem(key)))
+const fnInputPush = function(){
+  return new Promise (function(resolve, reject){ // eslint-disable-line no-unused-vars
+    for(let i = 0; i < localStorage.length; i++){
+      const key = window.localStorage.key(i)
+      inpts.value.push(JSON.parse(localStorage.getItem(key)))
+    }
+  })
 }
 
-const inputAdd = () =>{
+/* id 순차 정렬 */
+onBeforeMount(() => {
+  fnInputPush()
+  inpts.value.sort(function(a,b){return (a.id < b.id ? -1:1 )})
+});
+
+/* 할일 추가 */
+let count = 0
+const inputAdd = (index) =>{
   const todoItem = {
-    id: Math.floor(Math.random() * 100000000),
+    id: index+count++,
     text: "오늘의 할일을 입력하세요.",
     checked: false,
     date: new Date().getDate

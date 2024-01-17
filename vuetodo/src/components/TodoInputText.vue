@@ -1,11 +1,13 @@
 <template>
-    <div class="button_box div_solid" @focusout="fnInputDetail()">
-        <input type="checkbox" class="form-check-input input_box" v-model="checked" @click="checkedEvent"/>
-        <input v-model="inputText2" id="inptBox" v-if = "isInputRef" class="form-control maple-light input"  placeholder="오늘의 할일을 입력하세요." v-focus @keyup.enter="fnInputDetail()" /> 
-        <text :class="classObject" v-else class="maple-light input" @dblclick="fnTextDbClick()">{{ inputText }}</text>
-        <div class="button_box div_solid">
-            <button class="btn btn-danger" v-show="!isInputRef" @click="$emit('removeTodo', itemId)">delete</button>
+    <div class="input-group mb-2"  @focusout="fnInputDetail()">
+        <div class="input-group-text">
+            <input type="checkbox" class="form-check-input" v-model="checked" @click="checkedEvent"/>
+            
         </div>
+        <input v-model="inputText2" id="inptBox" v-if = "isInputRef" class="form-control maple-light"  placeholder="오늘의 할일을 입력하세요." v-focus @keyup.enter="fnInputDetail()" /> 
+        <text :class="classObject" v-else class="form-control maple-light input" @dblclick="fnTextDbClick()">{{ inputText }}</text>
+        <button class="btn btn-danger" v-show="!isInputRef" @click="$emit('removeTodo', itemId)">delete</button>
+        <div></div>
     </div>
 </template>
 

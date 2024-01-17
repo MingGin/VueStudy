@@ -7,7 +7,7 @@
   margin-top: 60px;
 }
 @font-face {
-  font-family: 'maple bold';
+  font-family: 'maple bold'; 
   src: url('/src/fonts/Maplestory Bold.ttf') format('truetype');
   font-weight: 800;
   font-size: 40px;
@@ -32,8 +32,13 @@ header{
 }
 .custom-content{
   width: 900px;
-  padding-top: 30px;
-  border-radius: 10px solid #444444;
+  padding-top: 10px;
+}
+.custom-content-border{
+  width: 900px;
+  padding-top: 10px;
+  border: 2px solid #444444;
+  border-radius: 20px;
 }
 .custom-footer{
   display: flex;
@@ -42,11 +47,7 @@ header{
   display: flex;
 }
 .input{
-  font-size: 40px;
-  width: 800px;
-  height: 50px;
-  margin-inline: 10px;
-  margin-top: 5px;
+  text-align: left;
 }
 .button{
     /* float: left; */
