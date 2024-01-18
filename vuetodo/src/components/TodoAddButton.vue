@@ -6,8 +6,18 @@
 
 <script setup>
 import dayjs from 'dayjs'
-// import { watch } from 'vue'
+import { defineProps } from 'vue'
 
-let index = ()=>{ return dayjs().format('YYYYMMDDHHmmss')}
+const props = defineProps({                  
+    propDate: {
+            type: String,
+            required : false
+    }
+})
+
+/* 값을 받아오는 날짜 millisecond 까지 넘겨주기 */
+let index = ()=>{ 
+    return props.propDate + dayjs().format('hhmmsss')
+}
 
 </script>
