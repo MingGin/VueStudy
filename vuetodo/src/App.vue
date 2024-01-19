@@ -27,7 +27,9 @@ const isBorder = ref(true)
 const TodoCompleteCnt = ref(0)
 let compleCnt = 0
 
-const checkComplete = (checked)=>{
+/* Todo ChekBox 클릭시 */
+const checkComplete = (inpt,checked)=>{
+  inpt.value.checked = checked
   if(checked){
     compleCnt++
   } else {
@@ -37,8 +39,10 @@ const checkComplete = (checked)=>{
   return TodoCompleteCnt
 }
 
+/* Todo 성공 갯수 */
 watch(TodoCompleteCnt,(cnt)=>{
   TodoCompleteCnt.value = cnt
+  console.log(TodoCompleteCnt.value)
 })
 
 /* Lendering Add TextBox */
@@ -49,23 +53,23 @@ const fnInputPush = function(){
       const key = window.localStorage.key(i)
       if(JSON.parse(localStorage.getItem(key)).id.substring(0,8) == date.value){
         inpts.value.push(JSON.parse(localStorage.getItem(key)))
-        // if(inpts.value[i].checked){
-          //   compleCnt++
-          // }
       }
     }
-    compleCnt = fnChecked(compleCnt)
+    compleCnt = fnChecked()
     TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
     console.log(compleCnt)
   })
 }
-const fnChecked = (compleCnt)=>{
+/* checked true 찾기 */
+const fnChecked = ()=>{
+  let cnt = 0
   for(let i = 0; i < inpts.value.length; i++){
+    console.log("checked : " + inpts.value[i].checked)
     if(inpts.value[i].checked){
-      compleCnt++
+      cnt++
     }
   }
-  return compleCnt
+  return cnt
 }
 
 watch(inpts, (newInpts) => {
@@ -94,7 +98,7 @@ const inputAdd = (index) =>{
   }
   localStorage.setItem(todoItem.id,JSON.stringify(todoItem))
   inpts.value.push(todoItem)
-  compleCnt = fnChecked(compleCnt)
+  compleCnt = fnChecked()
   TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
   if(inpts.value.length <= 0){
     isBorder.value = false
@@ -117,7 +121,8 @@ const removeTodo = (itemId)=>{
   const targetTodo = targetTodoFilter(inpts.value,itemId)
   inpts.value.splice(targetTodo,1);
   localStorage.removeItem(itemId)
-  compleCnt = fnChecked(compleCnt)
+  compleCnt = fnChecked()
+  console.log("delete : " + compleCnt)
   TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
   if(inpts.value.length <= 0){
     isBorder.value = false

@@ -13,7 +13,7 @@
 
 <script setup>
 import {ref, reactive, watch} from 'vue';
-import {defineProps, defineEmits} from 'vue';
+import {defineProps, defineEmits, toRef} from 'vue';
 
 const props = defineProps({                  
     inpt: {
@@ -102,6 +102,6 @@ watch(checked, (newChecked) => {
 })
 const emit = defineEmits(['checkComplete'])
 const checkedEvent = ()=>{
-    emit('checkComplete',!checked.value)
+    emit('checkComplete',toRef(props.inpt),!checked.value)
 }
 </script>
