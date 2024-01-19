@@ -1,14 +1,14 @@
 <template>
   <header class="maple-bold-title">
     <p>TODO</p>
-    <TodoCalendar @todoDate = "todoDate"></TodoCalendar>
+    <TodoCalendar :count = "TodoCompleteCnt" @todoDate = "todoDate"></TodoCalendar>
   </header>
   <body >
-    <div class="container maple-light custom-content-border" >
-        <TodoInputText v-for="inpt in inpts" :key="inpt.id" :inpt = inpt @removeTodo ="removeTodo">
+    <div class="container maple-light" :class = "{'custom-content-border': isBorder}" >
+        <TodoInputText v-for="inpt in inpts" :key="inpt.id" :inpt = inpt @removeTodo ="removeTodo" @checkComplete="checkComplete">
 
         </TodoInputText>
-      </div>
+      </div>  
       <div class="container maple-light custom-content" >
         <TodoAddButton :propDate="date" @inputClick="inputAdd"/>
       </div>
@@ -19,23 +19,62 @@
 import TodoAddButton from './components/TodoAddButton.vue'
 import TodoInputText from './components/TodoInputText.vue'
 import TodoCalendar from './components/TodoCalendar.vue'
-import {ref, onBeforeMount} from 'vue'
+import {ref, onBeforeMount, watch, onUpdated, computed} from 'vue'
 
-const date = ref()
-const isAlert = ref(false)
-
-/* Add TextBox */
 const inpts = ref([])
+const date = ref()
+const isBorder = ref(true)
+const TodoCompleteCnt = ref(0)
+let compleCnt = 0
+
+const checkComplete = (checked)=>{
+  if(checked){
+    compleCnt++
+  } else {
+    compleCnt--
+  }
+  TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
+  return TodoCompleteCnt
+}
+
+watch(TodoCompleteCnt,(cnt)=>{
+  TodoCompleteCnt.value = cnt
+})
+
+/* Lendering Add TextBox */
 const fnInputPush = function(){
   return new Promise (function(resolve, reject){ // eslint-disable-line no-unused-vars
+    compleCnt = 0
     for(let i = 0; i < localStorage.length; i++){
       const key = window.localStorage.key(i)
       if(JSON.parse(localStorage.getItem(key)).id.substring(0,8) == date.value){
         inpts.value.push(JSON.parse(localStorage.getItem(key)))
+        // if(inpts.value[i].checked){
+          //   compleCnt++
+          // }
       }
     }
+    compleCnt = fnChecked(compleCnt)
+    TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
+    console.log(compleCnt)
   })
 }
+const fnChecked = (compleCnt)=>{
+  for(let i = 0; i < inpts.value.length; i++){
+    if(inpts.value[i].checked){
+      compleCnt++
+    }
+  }
+  return compleCnt
+}
+
+watch(inpts, (newInpts) => {
+    if(newInpts.length <= 0){
+      isBorder.value = false
+    } else{
+      isBorder.value = true
+    }
+})
 
 
 /* id 순차 정렬 */
@@ -55,6 +94,13 @@ const inputAdd = (index) =>{
   }
   localStorage.setItem(todoItem.id,JSON.stringify(todoItem))
   inpts.value.push(todoItem)
+  compleCnt = fnChecked(compleCnt)
+  TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
+  if(inpts.value.length <= 0){
+    isBorder.value = false
+  } else{
+    isBorder.value = true
+  }
 }
 
 /* id로 todo 찾기 */
@@ -71,6 +117,13 @@ const removeTodo = (itemId)=>{
   const targetTodo = targetTodoFilter(inpts.value,itemId)
   inpts.value.splice(targetTodo,1);
   localStorage.removeItem(itemId)
+  compleCnt = fnChecked(compleCnt)
+  TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
+  if(inpts.value.length <= 0){
+    isBorder.value = false
+  } else{
+    isBorder.value = true
+  }
 }
 
 /* 캘린더에서 날짜값 가져오기 */

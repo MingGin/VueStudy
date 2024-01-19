@@ -13,7 +13,7 @@
 
 <script setup>
 import {ref, reactive, watch} from 'vue';
-import {defineProps} from 'vue';
+import {defineProps, defineEmits} from 'vue';
 
 const props = defineProps({                  
     inpt: {
@@ -100,5 +100,8 @@ watch(checked, (newChecked) => {
     }
     localStorage.setItem(todoItem.id,JSON.stringify(todoItem))
 })
-
+const emit = defineEmits(['checkComplete'])
+const checkedEvent = ()=>{
+    emit('checkComplete',!checked.value)
+}
 </script>
