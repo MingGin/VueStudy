@@ -19,7 +19,7 @@
 import TodoAddButton from './components/TodoAddButton.vue'
 import TodoInputText from './components/TodoInputText.vue'
 import TodoCalendar from './components/TodoCalendar.vue'
-import {ref, onBeforeMount, watch, onUpdated, computed} from 'vue'
+import {ref, onBeforeMount, watch} from 'vue'
 
 const inpts = ref([])
 const date = ref()
@@ -57,14 +57,12 @@ const fnInputPush = function(){
     }
     compleCnt = fnChecked()
     TodoCompleteCnt.value = compleCnt/inpts.value.length * 100
-    console.log(compleCnt)
   })
 }
 /* checked true 찾기 */
 const fnChecked = ()=>{
   let cnt = 0
   for(let i = 0; i < inpts.value.length; i++){
-    console.log("checked : " + inpts.value[i].checked)
     if(inpts.value[i].checked){
       cnt++
     }
